@@ -13,7 +13,14 @@ const INVALID_ARGS_ERROR =
  * @return {Object} The rollup code object.
  */
 export default function htmlTemplate(options = {}) {
-  const { template, target, prefix, attrs, replaceVars } = options;
+  const {
+    template,
+    target,
+    prefix,
+    attrs,
+    replaceVars,
+    staticPrefix,
+  } = options;
   const scriptTagAttributes = attrs && attrs.length > 0 ? attrs : [];
   return {
     name: "html-template",
@@ -63,9 +70,8 @@ export default function htmlTemplate(options = {}) {
             tmpl.slice(0, bodyCloseTag),
             ...bundles.map(
               b =>
-                `<script ${scriptTagAttributes.join(
-                  " "
-                )} src="${bundleDirString}${prefix || ""}${b}"></script>\n`
+                `<script ${scriptTagAttributes.join(" ")} src="${staticPrefix ||
+                  bundleDirString}${prefix || ""}${b}"></script>\n`
             ),
             tmpl.slice(bodyCloseTag, tmpl.length),
           ].join("");
